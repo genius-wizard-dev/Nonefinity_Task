@@ -1,0 +1,6 @@
+.venv
+.env
+.ruff_cache
+docker
+uv.lock
+example.py

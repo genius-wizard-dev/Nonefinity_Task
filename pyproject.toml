@@ -1,0 +1,31 @@
+[project]
+name = "vector-tasks"
+version = "0.3.0"
+description = "Optimized Celery tasks for vector embeddings"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "celery",
+    "redis",
+    "pydantic-settings",
+    "langchain",
+    "langchain-openai",
+    "langchain-huggingface",
+    "langchain-community",
+    "langchain-text-splitters",
+    "qdrant-client",
+    "motor",
+    "structlog",
+    "flower",
+    "minio",
+    "pandas",
+    "python-magic",
+    "unstructured[all-docs]",
+    "python-docx",
+    "pypdf",
+    "openpyxl",
+    "python-pptx",
+    "markdown",
+]
+
