@@ -7,7 +7,6 @@ from langchain_openai import OpenAIEmbeddings
 
 from src.utils.logger import logger
 
-
 class EmbedderRegistry:
     """
     Registry for caching embedding models to avoid repeated initialization.
@@ -149,47 +148,6 @@ class EmbedderRegistry:
                 model_id=model_id
             )
             return False
-
-    @classmethod
-    def delete_embedders_by_provider(cls, provider: str) -> int:
-        """
-        Delete all cached embedders for a specific provider.
-
-        Args:
-            provider: The provider name (openai, huggingface, etc.)
-
-        Returns:
-            Number of embedders deleted
-        """
-        deleted_count = 0
-        keys_to_delete = []
-
-        for cache_key, cache_data in cls._cache.items():
-            if cache_data["metadata"]["provider"] == provider:
-                keys_to_delete.append(cache_key)
-
-        for key in keys_to_delete:
-            if cls.delete_embedder(key):
-                deleted_count += 1
-
-        logger.info(
-            "Deleted embedders by provider",
-            provider=provider,
-            deleted_count=deleted_count
-        )
-
-        return deleted_count
-
-    @classmethod
-    def clear_cache(cls):
-        """Clear all cached embedders (useful for testing or memory management)."""
-        embedder_count = len(cls._cache)
-        cls._cache.clear()
-
-        logger.info(
-            "Cleared all cached embedders",
-            cleared_count=embedder_count
-        )
 
     @classmethod
     def get_cache_info(cls) -> dict:
