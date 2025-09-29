@@ -283,39 +283,6 @@ class LangChainTextProcessor:
         """
         return [doc.page_content for doc in documents if doc.page_content.strip()]
 
-    def create_documents_from_chunks(
-        self,
-        chunks: List[str],
-        metadata: Optional[Dict[str, Any]] = None
-    ) -> List[Document]:
-        """
-        Create LangChain documents from text chunks for backward compatibility
-
-        Args:
-            chunks: List of text chunks
-            metadata: Optional metadata to add to all documents
-
-        Returns:
-            List of LangChain Document objects
-        """
-        documents = []
-        base_metadata = metadata or {}
-
-        for i, chunk in enumerate(chunks):
-            if chunk.strip():
-                doc_metadata = base_metadata.copy()
-                doc_metadata.update({
-                    "chunk_index": i,
-                    "source": "manual_chunks"
-                })
-
-                documents.append(Document(
-                    page_content=chunk,
-                    metadata=doc_metadata
-                ))
-
-        return documents
-
     def get_supported_file_types(self) -> List[str]:
         """Get list of supported file types"""
         return [

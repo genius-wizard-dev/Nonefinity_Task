@@ -12,7 +12,7 @@ from .mongodb import (
     close_mongodb
 )
 from .qdrant import QdrantService
-from .constants import Collections, FileFields, UserFields, EmbeddingFields, MinioConstants
+from .constants import Collections, FileFields
 
 __all__ = [
     # MongoDB operations
@@ -30,7 +30,4 @@ __all__ = [
     # Constants
     "Collections",
     "FileFields",
-    "UserFields",
-    "EmbeddingFields",
-    "MinioConstants"
 ]

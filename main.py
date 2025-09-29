@@ -11,8 +11,7 @@ import os
 import sys
 import argparse
 import subprocess
-import threading
-import time
+import importlib
 
 # Add current directory to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -30,7 +29,7 @@ def start_worker():
     from src.infrastructure.celery import celery_app as celery
 
     # Import embedding tasks to ensure registration
-    from src.tasks.ai import embedding
+    importlib.import_module("src.tasks.ai.embedding")
 
     # Print registered AI tasks
     print("📋 Registered AI tasks:")
@@ -67,27 +66,6 @@ def start_flower():
         print("❌ Error: 'uv' command not found. Please install uv or use 'celery flower' directly.")
 
 
-def start_flower_background():
-    """Start Flower monitoring in background thread."""
-    def flower_runner():
-        time.sleep(2)  # Give worker time to start
-        print("🌸 Starting Flower monitoring in background...")
-        print("📊 Monitor: http://localhost:5555")
-        try:
-            subprocess.run([
-                'uv', 'run', 'celery',
-                '--app=src.infrastructure.celery:celery_app',
-                'flower',
-                '--port=5555'
-            ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        except FileNotFoundError:
-            print("❌ Error: 'uv' command not found. Please install uv or use 'celery flower' directly.")
-
-    flower_thread = threading.Thread(target=flower_runner, daemon=True)
-    flower_thread.start()
-    return flower_thread
-
-
 def start_all():
     """Start both worker and flower monitoring."""
     print("🚀 Starting AI Tasks System (Worker + Flower)...")
@@ -102,7 +80,7 @@ def start_all():
     from src.infrastructure.celery import celery_app as celery
 
     # Import embedding tasks to ensure registration
-    from src.tasks.ai import embedding
+    importlib.import_module("src.tasks.ai.embedding")
 
     # Print registered AI tasks
     print("📋 Registered AI tasks:")
